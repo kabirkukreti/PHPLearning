@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PHPLearning" basedir="." default="main">
+	<property name = "destdir" value="/var/www/${phing.project.name}"/>
+	<property name = "srcdir" value="${project.basedir}"/>
+     <fileset dir="." id="allfiles">
+        <include name="**" />
+    </fileset>
+
+	
+	<target name="main">
+  		<echo msg="${destdir}"/>
+  		<echo msg="${srcdir}"/>
+  		<copy todir="${destdir}">
+  			<fileset refid="allfiles" />
+  		</copy>
+  		<echo msg="Attempting apache reload"/>
+  		<exec command="service apache2 reload"/>
+  		 	 		
+ 	</target>
+	
+</project>
