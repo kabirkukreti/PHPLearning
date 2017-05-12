@@ -2,7 +2,7 @@
 <project name="PHPLearning" basedir="." default="main">
 	<property name = "destdir" value="/var/www/${phing.project.name}"/>
 	<property name = "srcdir" value="${project.basedir}"/>
-	<property name = "repodir" value= "https://github.com/kabirkukreti/PHPLearning.git"/>
+	<property name = "repo" value= "https://github.com/kabirkukreti/PHPLearning.git"/>
      <fileset dir="." id="allfiles">
         <include name="**" />
     </fileset>
@@ -17,14 +17,17 @@
     			<then>
       				<echo>Directory exists</echo>
       				<echo>Pulling master branch from origin</echo>
-      				<gitpull repository="${repodir}" source="origin" refspec="master" strategy="recursive" keep="true" force="true" quiet="true" rebase="true" targetPath="${destdir}"/>
+      				<gitpull repository="${destdir}" source="origin" refspec="master" strategy="recursive" keep="true" force="true" quiet="true" rebase="true" />
     			</then>
     			<else>
-    				<echo>Directory exists</echo>
+    				<echo>Directory not present</echo>
     				<echo>Cloning repo</echo>
-    				<gitclone repository="${repodir}" targetPath="${destdir}" />
+    				<gitclone repository="${repo}" targetPath="${destdir}" /> 
     			</else>
   		</if>
+  		<echo msg="Attempting apache reload"/>
+  		<exec command="service apache2 reload"/>
+  		
   		<!--
   		<copy todir="${destdir}">
   			<fileset refid="allfiles" />
